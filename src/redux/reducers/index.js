@@ -21,7 +21,7 @@ const mainReducer = (state = initialState, action) => {
           ...state.fav,
           content: [
             ...state.fav.content.map(
-              (singleElement) => singleElement._id !== action.payload._id
+              (singleElement) => singleElement._id !== action.payload
             ),
           ],
         },

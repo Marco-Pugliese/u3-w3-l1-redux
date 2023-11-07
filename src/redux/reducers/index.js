@@ -20,8 +20,8 @@ const mainReducer = (state = initialState, action) => {
         fav: {
           ...state.fav,
           content: [
-            ...state.fav.content.map(
-              (singleElement) => singleElement._id !== action.payload
+            ...state.fav.content.filter(
+              (singleElement) => singleElement._id !== action.payload._id
             ),
           ],
         },

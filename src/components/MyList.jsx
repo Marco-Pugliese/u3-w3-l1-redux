@@ -3,37 +3,49 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Link } from "react-router-dom";
 
-const MyList = ({}) => {
+const MyList = () => {
   const dispatch = useDispatch();
   const myDatas = useSelector((state) => state.fav.content);
   return (
     <Container>
       <Row>
         <Col>
-          <ListGroup>
+          <h2>My Favs:</h2>
+          <ListGroup className="shadow-lg">
             {myDatas.map((singleJob) => {
               return (
-                <Link key={singleJob._id} to={`/${singleJob.company_name}`}>
-                  <ListGroup.Item className="d-flex">
-                    <div className="d-flex">
-                      {singleJob.company_name} - {singleJob.category} / ("
+                <ListGroup.Item className="d-flex justify-content-between shadow-lg">
+                  <Link
+                    className="nav-link "
+                    key={singleJob._id}
+                    to={`/${singleJob.company_name}`}
+                  >
+                    <div className="d-flex flex-column fw-bold">
+                      {singleJob.company_name} - {singleJob.category}
+                    </div>
+                    <div className="fs-6 fst-italic">
+                      {singleJob.salary} - {singleJob.job_type} / ("
                       {singleJob.publication_date.slice(0, 10)}")
                     </div>
                     <div>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => {
-                          dispatch({
-                            type: "remove_element",
-                            payload: singleJob,
-                          });
-                        }}
-                      >
-                        Remove
-                      </button>
+                      Candidate location required:
+                      {singleJob.candidate_required_location}
                     </div>
-                  </ListGroup.Item>
-                </Link>
+                  </Link>
+                  <div>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => {
+                        dispatch({
+                          type: "remove_element",
+                          payload: singleJob,
+                        });
+                      }}
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </ListGroup.Item>
               );
             })}
           </ListGroup>

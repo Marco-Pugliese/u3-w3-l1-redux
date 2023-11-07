@@ -2,10 +2,11 @@ import { Col, Container, ListGroup, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { Link } from "react-router-dom";
+import { REMOVE_TO_FAV } from "../redux/actions";
 
 const MyList = () => {
   const dispatch = useDispatch();
-  const myDatas = useSelector((state) => state.fav.content);
+  const myDatas = useSelector((state) => state.list.content);
   return (
     <Container>
       <Row>
@@ -37,7 +38,7 @@ const MyList = () => {
                       className="btn btn-danger"
                       onClick={() => {
                         dispatch({
-                          type: "remove_element",
+                          type: REMOVE_TO_FAV,
                           payload: singleJob,
                         });
                       }}

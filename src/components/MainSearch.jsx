@@ -5,35 +5,22 @@ import { Star, StarFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-
+import { ADD_TO_FAV, getFetchAction, setQueryAction } from "../redux/actions";
 const MainSearch = () => {
-  const [query, setQuery] = useState("");
-  const [jobs, setJobs] = useState([]);
-
-  const baseEndpoint =
-    "https://strive-benchmark.herokuapp.com/api/jobs?search=";
+  const dispatch = useDispatch();
+  const query = useSelector((state) => state.query.query);
+  const jobs = useSelector((state) => state.fetch.jobs);
 
   const handleChange = (e) => {
-    setQuery(e.target.value);
+    dispatch(setQueryAction(e.target.value));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    try {
-      const response = await fetch(baseEndpoint + query + "&limit=20");
-      if (response.ok) {
-        const { data } = await response.json();
-        setJobs(data);
-      } else {
-        alert("Error fetching results");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(getFetchAction(query));
   };
-  const x = useSelector((state) => state.fav.content.length);
-  const dispatch = useDispatch();
+  const x = useSelector((state) => state.list.content.length);
+
   return (
     <Container>
       <Row>
@@ -64,7 +51,7 @@ const MainSearch = () => {
                   className="btn btn-warning"
                   onClick={() => {
                     dispatch({
-                      type: "add_to_fav",
+                      type: ADD_TO_FAV,
                       payload: jobData,
                     });
                   }}
